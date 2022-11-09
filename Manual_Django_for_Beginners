@@ -23,12 +23,12 @@ ____________________ 2. Git SetUp -- Initialisation  ____________________
     - git config user.email "ajmalrashadmarkz@gmail.com"
     - git add .
     - git commit -m "1. Setup Django Basics files"
-    -  git remote add origin https://github.com/ajmalrashadmarkz/11_22_09_Django_for_Beginners_Chapter-4_Message Board App.git
+    -  git remote add origin https://github.com/ajmalrashadmarkz/11_22_09_Django_for_Beginners_Chapter-5_ Blog-App.git
     - git push -u origin master
 
-____________________  3. Create App - posts  ____________________
+____________________  3. Create App - blog ____________________
     - Create pages app
-        ○ python manage.py startapp posts
+        ○ python manage.py startapp blog
     - Register the App
         ○  django_project/settings.py
         ○  INSTALLED_APPS = [
@@ -37,6 +37,63 @@ ____________________  3. Create App - posts  ____________________
 			]
 	- Migrate the database
 	    ○ python manage.py migrate
+
+____________________  6. Setup Template Folder & Home Page  ____________________
+    - Create new directory in the following order
+        ○ pages[...App folder] -> templates [...New Dir] -> pages [...New Dir]
+    - Create Home Page
+        ○ pages\templates\pages\home.html
+
+                    OR
+    - Create new directory templates in project folder
+        ○ django_project -> templates [...New Dir]
+    - Create Home page
+        ○ django_project\templates\home.html
+    - Add templates in django_project/settings.py
+        TEMPLATES = [
+            {
+                ...
+                "DIRS": [BASE_DIR / "templates"], # new
+                ...
+            },
+        ]
+
+____________________  8. Create Class Based View for model class[...Post]  ____________________
+    - blog/views.py
+    - import ListView -> django.view.generic
+    - import Post -> models
+    - Create a class
+        ○ HomePageView(TemplateView [...Derived Class] ):
+               template_name = "webpage name" [...Class variable]
+
+____________________  9. SetUp Url for project and app  ____________________
+    - Create new urls.py file in app folder
+        ○ blog/urls.py
+        ○ import path
+        ○ import HomePageView
+        ○ urlpatterns = [
+                path("", HomePageView.as_view(), name="home" ),
+            ]
+    - Include app url in project url
+        ○ django_project/urls
+        ○ import include -> [... from django.urls]
+        ○ urlpatterns = [
+                path("", include("pages.urls")),
+            ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ____________________  4. Create models for posts app  ____________________
     - posts/models.py
@@ -67,49 +124,6 @@ ____________________  6. Change the Display Name [post] - Descriptive Naming - A
             def __str__(self):
                 return self.text[:50]
 
-____________________  6. Setup Template Folder & Home Page  ____________________
-    - Create new directory in the following order
-        ○ pages[...App folder] -> templates [...New Dir] -> pages [...New Dir]
-    - Create Home Page
-        ○ pages\templates\pages\home.html
-
-                    OR
-    - Create new directory templates in project folder
-        ○ django_project -> templates [...New Dir]
-    - Create Home page
-        ○ django_project\templates\home.html
-    - Add templates in django_project/settings.py
-        TEMPLATES = [
-            {
-                ...
-                "DIRS": [BASE_DIR / "templates"], # new
-                ...
-            },
-        ]
-
-____________________  8. Create Class Based View for model class[...Post]  ____________________
-    - posts/views.py
-    - import ListView -> django.view.generic
-    - import Post -> models
-    - Create a class
-        ○ HomePageView(ListView [...Derived Class] ):
-               model = Post [...Class variable]
-               template_name = "webpage name" [...Class variable]
-
-____________________  9. SetUp Url for project and app  ____________________
-    - Create new urls.py file in app folder
-        ○ posts/urls.py
-        ○ import path
-        ○ import HomePageView
-        ○ urlpatterns = [
-                path("", HomePageView.as_view(), name="home" ),
-            ]
-    - Include app url in project url
-        ○ django_project/urls
-        ○ import include -> [... from django.urls]
-        ○ urlpatterns = [
-                path("", include("pages.urls")),
-            ]
 
 ____________________  10. SetUp ListView of Model  ____________________
     - templates\home.html
