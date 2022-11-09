@@ -1,0 +1,122 @@
+____________________  1. Initial Set Up - Django_project  ____________________
+
+1. Django 4.1.3 and Python 3.10
+2. Create Directory - blog
+3. Create a virtual environment within this new directory
+    - python -m venv .venv
+    - Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser [..Windows Execution - Enable for running scripts]
+    - .venv\Scripts\Activate.ps1 [.. Activate - virtual environment]
+    - deactivate [..Deactivate and leave a virtual environment type]
+4. Install Django
+    - python -m pip install django~=4.1.3
+5. Pip to be on the latest version
+    - python -m pip install --upgrade pip
+6. Create a new Django project [.. Project Name = django_project]
+    - django-admin startproject django_project .
+7. Add .gitignore
+
+
+____________________ 2. Git SetUp -- Initialisation  ____________________
+    - git init
+    - git status
+    - git config user.name "ajmalrashadmarkz"
+    - git config user.email "ajmalrashadmarkz@gmail.com"
+    - git add .
+    - git commit -m "1. Setup Django Basics files"
+    -  git remote add origin https://github.com/ajmalrashadmarkz/11_22_09_Django_for_Beginners_Chapter-4_Message Board App.git
+    - git push -u origin master
+
+____________________  3. Create App - posts  ____________________
+    - Create pages app
+        ○ python manage.py startapp posts
+    - Register the App
+        ○  django_project/settings.py
+        ○  INSTALLED_APPS = [
+			    .....
+			   "posts.apps.PostsConfig", # new
+			]
+	- Migrate the database
+	    ○ python manage.py migrate
+
+____________________  4. Create models for posts app  ____________________
+    - posts/models.py
+    - import models [... from db]
+    - Create class name Post
+        Extends to Model detived class [... models.Model]
+        create a variable text [... class -> Text Field , Attribute - Empty]
+            class Post(models.Model):
+                text = models.TextField()
+    - Activating models
+        python manage.py makemigrations posts [... App name -> posts]
+        python manage.py migrate
+
+____________________  5. Setup Django Admin Interface   ____________________
+    - Creation of super user
+        python manage.py createsuperuser
+    - import admin [... from contrib]
+    - import Post [... from models]
+    - Register the model with admin.site.register()
+        admin.site.register(Post)
+
+____________________  6. Change the Display Name [post] - Descriptive Naming - Automatically ____________________
+    - Descriptive Naming - Automatically
+    -  posts/models.py
+    - Add new function __str__ [... str() methods]
+       ○ model instance methods
+       ○ __str__() method is called whenever you call str() on an object
+            def __str__(self):
+                return self.text[:50]
+
+____________________  6. Setup Template Folder & Home Page  ____________________
+    - Create new directory in the following order
+        ○ pages[...App folder] -> templates [...New Dir] -> pages [...New Dir]
+    - Create Home Page
+        ○ pages\templates\pages\home.html
+
+                    OR
+    - Create new directory templates in project folder
+        ○ django_project -> templates [...New Dir]
+    - Create Home page
+        ○ django_project\templates\home.html
+    - Add templates in django_project/settings.py
+        TEMPLATES = [
+            {
+                ...
+                "DIRS": [BASE_DIR / "templates"], # new
+                ...
+            },
+        ]
+
+____________________  8. Create Class Based View for model class[...Post]  ____________________
+    - posts/views.py
+    - import ListView -> django.view.generic
+    - import Post -> models
+    - Create a class
+        ○ HomePageView(ListView [...Derived Class] ):
+               model = Post [...Class variable]
+               template_name = "webpage name" [...Class variable]
+
+____________________  9. SetUp Url for project and app  ____________________
+    - Create new urls.py file in app folder
+        ○ posts/urls.py
+        ○ import path
+        ○ import HomePageView
+        ○ urlpatterns = [
+                path("", HomePageView.as_view(), name="home" ),
+            ]
+    - Include app url in project url
+        ○ django_project/urls
+        ○ import include -> [... from django.urls]
+        ○ urlpatterns = [
+                path("", include("pages.urls")),
+            ]
+
+____________________  10. SetUp ListView of Model  ____________________
+    - templates\home.html
+    - ListView - automatically returns to us a context variable called <model>_list
+        Eg:-
+            model name -> post
+             list view pass the variable like post_list
+             {% for post in post_list %} [... loop took variable one by one ]
+    - listing object
+        post.text [... text is object name]
