@@ -38,7 +38,7 @@ ____________________  3. Create App - blog ____________________
 	- Migrate the database
 	    ○ python manage.py migrate
 
-____________________  6. Setup Template Folder & Home Page  ____________________
+____________________  4. Setup Template Folder & Home Page  ____________________
     - Create new directory in the following order
         ○ pages[...App folder] -> templates [...New Dir] -> pages [...New Dir]
     - Create Home Page
@@ -58,7 +58,7 @@ ____________________  6. Setup Template Folder & Home Page  ____________________
             },
         ]
 
-____________________  8. Create Class Based View for model class[...Post]  ____________________
+____________________  5. Create Class Based View for model class[...Post]  ____________________
     - blog/views.py
     - import ListView -> django.view.generic
     - import Post -> models
@@ -66,7 +66,7 @@ ____________________  8. Create Class Based View for model class[...Post]  _____
         ○ HomePageView(TemplateView [...Derived Class] ):
                template_name = "webpage name" [...Class variable]
 
-____________________  9. SetUp Url for project and app  ____________________
+____________________  6. SetUp Url for project and app  ____________________
     - Create new urls.py file in app folder
         ○ blog/urls.py
         ○ import path
@@ -81,6 +81,23 @@ ____________________  9. SetUp Url for project and app  ____________________
                 path("", include("pages.urls")),
             ]
 
+
+____________________  7. Create Database Model  ____________________
+    - blog/models.py
+    - import models, reverse
+    - Create a class ->
+        name post
+        attributes title[...char],Author[...foriegn key],body[...char]
+    - Author -> ForeignKey
+        allows for a many-to-one relationship
+        given user can be the author of many different blog posts
+        all many-to-one relationships such as a ForeignKey we must also specify an on_delete75 option
+    - get_absolute_url
+        URL named post_detail and pass in the pk
+
+    - Migration
+        python manage.py makemigrations blog
+        python manage.py migrate
 
 
 
