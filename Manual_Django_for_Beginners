@@ -33,7 +33,7 @@ ____________________  3. Create App - blog ____________________
         ○  django_project/settings.py
         ○  INSTALLED_APPS = [
 			    .....
-			   "posts.apps.PostsConfig", # new
+			   "posts.apps.BlogConfig", # new
 			]
 	- Migrate the database
 	    ○ python manage.py migrate
@@ -99,7 +99,32 @@ ____________________  7. Create Database Model  ____________________
         python manage.py makemigrations blog
         python manage.py migrate
 
+____________________  8. Django - Admin   ____________________
+    - Create a SuperUser
+        python manage.py createsuperuser
+    - register on
+        blog/admin.py
 
+
+____________________  9. Setup the template   ____________________
+                    base.html
+    - Create a new html file -> base.html [include]
+        header -> Add blog page in header
+            <h1><a href="{% url "home" %}">Blog</a> </h1>
+    - Add block & end block for content loading
+
+                    home.html
+    - base.html extends in to home page
+        {% extends "base.html" %}
+    - define block content inside the block & end block
+        {% block content %}
+        {% for post in post_list %}
+            <div class="post-entry">
+                <h2><a href="">{{ post.title }}</a></h2>
+                <p>{{ post.body }}</p>
+            </div>
+        {% endfor %}
+        {% endblock content %}
 
 
 
