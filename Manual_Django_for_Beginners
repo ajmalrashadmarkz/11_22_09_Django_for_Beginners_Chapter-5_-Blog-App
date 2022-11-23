@@ -126,7 +126,25 @@ ____________________  9. Setup the template   ____________________
         {% endfor %}
         {% endblock content %}
 
+____________________  9. Static file Dealing   ____________________
+    - Create a new directory  in project folder -> static
+    - Update static url in settings
+        STATIC_URL = "/static/"
+    - Specify where the static folder available
+        STATICFILES_DIRS = [BASE_DIR / "static"]
+    - inside static folder create a new directory -> css
+    - Create a new file inside the css folder -> base.css
 
+                base.css
+    - header h1 a {
+        color: red;
+     }
+
+                base.html
+    - load the static folder
+        {% load static %}
+    - link the stylesheet
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
 
 
